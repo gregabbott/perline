@@ -10,4 +10,5 @@ The two-way converter wraps normal text to Perline,
   and unwraps Perline to normal text.
 The live playground edits and presents text in both formats.
 
-Visit [the Perline Website](https://perline.pages.dev/).
+Visit [the Perline site](https://perline.pages.dev/) 
+or the project's [GitHub Page](https://gregabbott.github.io/perline/).
