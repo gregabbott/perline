@@ -1,0 +1,138 @@
+<html>
+<head>
+  <link href=c.css rel=stylesheet>
+  <meta name=color-scheme content="dark light">
+  <link rel=icon href="data:;base64,iVBORw0KGgo=">
+  <title>Perline &mdash; Wrap text at logical places</title>
+</head>
+<body>
+  <input hidden type=radio name=tl1 id=show_tl1_tool checked>
+  <header>
+    <nav class=no_select>
+      <div class=menu_bar>
+        <input name=m_bar hidden id=close_sub_menu type=radio checked>
+        <label for=close_sub_menu></label>
+        <div class=menu_item>
+          <input hidden id=mm_about name=m_bar type=radio>
+          <label class=menu_button for=mm_about>Perline
+          </label>
+          <fieldset role=presentation class=sub_menu_holder>
+            <button popovertarget="popover_license">License</button>
+            <a href="log.html">Change Log</a>
+            
+            <a href="https://github.com/gregabbott/perline">GitHub</a>
+          
+          </fieldset>
+        </div><!-- menu item-->
+       
+        <div class=menu_item id="save_menu_item">
+          <input hidden id=mm_save name=m_bar type=radio>
+          <label class=menu_button for=mm_save>Save</label>
+          <fieldset role="presentation" class=sub_menu_holder id="show_save_option">
+            <button id="save_normal_wrapped">Save Normal.txt <span id="normal_wrapped_weight"></span></button>
+            <button id="save_perline">Save Perline.txt <span id="perline_weight"></span></button>
+            <!--
+            <button id="save_io">Save Both (.zip) <span id=zip_weight></span></button>
+          -->
+          </fieldset>
+        </div>
+      </div><!--menu bar-->
+    </nav>
+    <noscript>
+      <div id="please_enable_js">
+        This page requires JavaScript.
+      </div>
+    </noscript>
+  </header>
+  <div id="no_click_through"></div>
+  <div id="main">
+    <div id="tl1_tool">
+      <input type="radio" hidden name="view_areas" id="view_input">
+      <input type="radio" hidden name="view_areas" id="view_both" checked>
+      <input type="radio" hidden name="view_areas" id="view_output">
+      <div id="t1l_menu_bar" class="no_select">
+        
+        <field>
+
+          <label for=max_line_width
+          title="Maximum line width"
+          >Width</label>
+          <input id=max_line_width type="number" min="0" value="64">
+        </field>
+        <field>
+          <label for=indent_wrapped_lines
+          title="Indent wrapped lines">Nest</label>
+          <input type=checkbox id=indent_wrapped_lines checked><label for=indent_wrapped_lines></label>
+        </field>
+        <field>
+        <label for="custom_value_for_one_indent"
+        title="String value to use per indent e.g. 4 spaces '    '">Indent</label>
+        <input id="custom_value_for_one_indent" type="text" value="  ">
+        </field>
+        <button popovertarget="template_picker">Templates</button>
+        <div class="view_toggle">
+          <label for="view_input">Input</label>
+          <label for="view_both">Both</label> 
+          <label for="view_output">Output</label>
+        </div>
+        
+      </div><!-- end tl1_menubar-->
+
+      <div id="sidebar_and_inputs_area">
+       
+      <div id="tl1_columns">
+        
+      <div id="normal_wrapped_holder" class="column"><!--col1-->
+        <div class="column_header no_select">
+          <label for="normal_wrapped" class="center">Normal</label>
+        </div>
+        <div class="textarea_holder">
+          <textarea id="normal_wrapped"></textarea>
+        </div>
+        <pre hidden>
+
+</pre>
+        <div class="column_info no_select" id="normal_wrapped_info">
+          
+          <button id="button_to_copy_normal_wrapped">Copy</button>
+        </div>
+      </div><!--col1-->
+      <div id="perline_holder" class="column"><!--col2-->
+        <div class="column_header no_select">
+          <label for="perline" class="center">Perline</label>
+        </div>
+        <div class="textarea_holder">
+          <div id="perline_ruler"></div>
+          <textarea id="perline"></textarea>
+        </div>
+        <div class="column_info no_select" id="perline_info">
+          <button id="button_to_copy_perline">Copy</button>
+        </div>
+      </div><!--col2-->
+    </div><!--end tl1_columns-->
+  </div><!-- sidebar_and_inputs_area-->
+    </div><!--tl1_tool-->
+  </div><!--main-->
+  <footer class="no_select">    
+    <button popovertarget="popover_license">By + &copy;</button>
+    <a href="https://gregabbott.pages.dev/">Greg Abbott</a> 2022-2024
+  </footer>
+    <div popover id="popover_license">
+      Version: 2024-11-24
+      <p>Perline<br>
+By and Copyright &copy; 2022-2024 <a href="https://gregabbott.pages.dev/">Greg Abbott</a>. All rights reserved.<br>
+(Specification, converter, documentation, site)</p>
+<p>NO WARRANTY<br>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</p>
+</div>
+<div popover id="template_picker">
+  LOAD A TEMPLATE<br>
+  !!! This will replace the textarea values !!!<br><br>
+  <div id="normal_wrapped_templates_list"></div>
+  <div id="perline_templates_list"></div>
+</div>
+  <script src=perline.js></script>
+  <script src=j.js></script>
+</body>
+</html>

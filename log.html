@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<link rel=icon href=data:;base64,iVBORw0KGgo=>
+<title>Perline &mdash; Changelog</title>
+<style>
+  :root{
+	color-scheme: light dark;
+  --light:hsl(60, 25%, 95%);
+  --dark:hsl(15, 5%, 10%);
+	--bg:light-dark(var(--light),var(--dark));
+	--fg:light-dark(var(--dark),var(--light));
+}
+* {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: monospace;
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+header {
+  padding: 2ch;
+  border-bottom: 1px solid var(--fg);
+}
+pre {
+  padding: 2ch;
+  white-space: pre-wrap;
+  padding-bottom: 100px;
+  flex:1;
+  overflow-y:auto;
+  display: flex;
+}
+footer{
+  padding: 2ch;
+  border-top: 1px solid var(--fg);
+}
+</style>
+</head>
+<body>
+  <header>
+    <a href="index.html">Perline</a> CHANGELOG
+  </header>
+<pre>
+<!-- date blocks new to old, items old to new -->
+Current Version = Newest date below
+
+2024_1125
+Splits sentences where wrapped text occurs: (){}[]<>""''“”‘’.
+  <!--^ Big refactor-->
+2024_1119
+Names project "Perline".
+Adds project to Github and interlinks.
+Softwraps Perline area IF user sets max width to zero.
+
+2024_1116
+Allows break points before the abbreviations 'i.e.' and 'e.g.'.
+Adds template to show and test abbreviation handling.
+
+2024_1108
+Lets alt+up and alt+down to move current line up or down.
+Moves child lines with parent lines.
+Updates indent features to insert or remove custom indent value.
+Produces one sentence per line style if maximum line width '0'.
+
+2024_1107
+Handles abbreviations.
+Updates intro text.
+Swaps UI to use another project's.
+Adds live ruler to show desired maximum width.
+Adds template loader and initial templates.
+
+2024_1106
+Handles markdown headers.
+Handles list items.
+Lets user set what string to use as 'one indent' in output.
+Detects what string equals 'one indent' in input.
+Indents line if `CMD+]` pressed.
+Unindents line if `CMD+[` pressed.
+Removes indent near caret if `shift+tab` pressed.
+Inserts tab at position if `tab` pressed.
+Refactors converters to use matchAll.
+Adds save and copy functions to both fields.
+Splits log to separate page.
+
+2024_0911
+Adds tab section interface.
+Lets user set maximum line length wanted.
+Accepts configuration object per converter function.
+Splits long lines before a non-interrogative 'which'.
+Offers to indent wrapped lines of a sentence to show relation.
+
+2024_0907
+Renames main script.
+Groups all library functions in a single namespace.
+Rewrites the process for converting from normal text.
+  Scraps previous inefficient recursion method for new:
+    Splits each sentence into smallest parts then reassembles.
+    Leaves link parts on their own line.
+    Leaves parts longer than max line length, on their own line.
+    Puts as many parts on a line as will fit within any limit.
+    Makes a new line for a part when the current one lacks room.
+Puts frontend rules docs in separate area on page.
+Tweaks and slims frontend CSS.
+Handles wikilinks in data.
+
+2022_1205
+Splits text by paragraphs then sentences to lines.
+Splits sentences that exceed maximum line width setting further:
+  Finds first of any split points:
+    Splits after punctuation [": ","; ",", "].
+    Splits before wrapped elements: (...) [...] {...}.
+  Splits sentence at first split point found into A and B parts.
+  Performs same action on A or B part if still too long.
+  Stops splitting a lines:
+    Once it fits within the maximum line width;
+    Or When it has no more logical split points.
+Offers to flag lines that exceed max width with the prefix '=='.
+</pre>
+<footer>
+Copyright <a href="https://gregabbott.pages.dev/">Greg Abbott</a> 2022-2024
+</footer>
+</body>
+</html>
