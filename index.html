@@ -18,6 +18,7 @@
           </label>
           <fieldset role=presentation class=sub_menu_holder>
             <button popovertarget="popover_license">License</button>
+            
             <a href="log.html">Change Log</a>
             
             <a href="https://github.com/gregabbott/perline">GitHub</a>
@@ -36,10 +37,15 @@
           -->
           </fieldset>
         </div>
+        <div class="menu_item">
+          
+          <button class="menu_button" popovertarget="popover_batch_convert">Batch Convert</button>
+        </div>
       </div><!--menu bar-->
     </nav>
+    <div id="drag_notice" class="banner hide">Drop txt/md files anywhere to convert to perline</div>
     <noscript>
-      <div id="please_enable_js">
+      <div id="please_enable_js" class="banner">
         This page requires JavaScript.
       </div>
     </noscript>
@@ -117,10 +123,23 @@
     <button popovertarget="popover_license">By + &copy;</button>
     <a href="https://gregabbott.pages.dev/">Greg Abbott</a> 2022-2024
   </footer>
+<div popover id="popover_batch_convert">
+<p>Batch Convert Text Files to Perline<br>
+1) Make the settings reflect the desired output.<br>
+- For example: [Max-Width: 0] [Nest: N]<br>
+2) Provide one or more text files to convert.<br>
+- Drag and drop files anywhere, or use the picker below.
+- The tool accepts .txt and .md<br>
+3) See the converted file(s) in your downloads folder.<br>
+- When given one file, the tool saves one converted .md file.<br>
+- When given many files, the tool save a .tar file.<br>
+- The .tar file contains the Perline files.</p>
+<input type=file id="file_picker" multiple=multiple>
+</div>
     <div popover id="popover_license">
-      Version: 2024-11-24
+      Version: 2025-03-11
       <p>Perline<br>
-By and Copyright &copy; 2022-2024 <a href="https://gregabbott.pages.dev/">Greg Abbott</a>. All rights reserved.<br>
+By and Copyright &copy; 2022-2025 <a href="https://gregabbott.pages.dev/">Greg Abbott</a>. All rights reserved.<br>
 (Specification, converter, documentation, site)</p>
 <p>NO WARRANTY<br>
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -132,7 +151,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   <div id="normal_wrapped_templates_list"></div>
   <div id="perline_templates_list"></div>
 </div>
-  <script src=perline.js></script>
-  <script src=j.js></script>
+<script src=perline.js></script>
+<script src=j.js></script>
+<script src=read_and_save.js></script>
 </body>
 </html>

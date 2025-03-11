@@ -1,8 +1,18 @@
-// Copyright 2022-2024 Greg Abbott. Version YMD 2024-11-24
+// By + Copyright 2022-2025 Greg Abbott. Version YMD 2025-03-11
+function download_file({ name, ext, data }) {
+	let blob = new Blob([data], { type: "application/octet-stream" })
+	let link = document.createElement("a")
+	link.href = URL.createObjectURL(blob)
+	link.download = `${name}.${ext}`
+	document.body.appendChild(link)
+	link.click()
+	document.body.removeChild(link)
+	URL.revokeObjectURL(link.href)
+}
+let el={}
 function main(){
 function log(x){console.log(x);return x}
 function gebi(x){return document.getElementById(x)}
-let el={}
 let ids = [
   `perline`,
   `normal_wrapped`,
@@ -195,7 +205,6 @@ el.normal_wrapped.onkeyup=spread
 el.max_line_width.onkeyup=
 el.max_line_width.onchange=()=>{
   let v = parseInt(el.max_line_width.value)
-  
   if(v===0){//soft wrap
     el.perline.style.overflowX= "hidden"
     el.perline.style.whiteSpace= "normal"
@@ -203,7 +212,6 @@ el.max_line_width.onchange=()=>{
   else{
     el.perline.style.whiteSpace= "pre"
     el.perline.style.overflowX= "auto"
-
   }
   position_perline_ruler()
   spread()
@@ -217,14 +225,6 @@ function spread(){
       string:el.normal_wrapped.value,
       indent_wrapped_lines:el.indent_wrapped_lines.checked
     })
-}
-function download_text_file({ name, data }) {
-	const link = document.createElement("a")
-	link.href = URL.createObjectURL(
-		new Blob([data], { type: "text/plain" })
-	)
-	link.download = `${name}.txt`
-	link.click()
 }
 function get_date_parts (date=new Date()){
 	function p(n){return n.toString().padStart(2,'0')}
@@ -259,14 +259,16 @@ function copy(string, el) {
 	}
 }
 gebi("save_perline").onclick = () => {
-  download_text_file({
+  download_file({
     name: get_date_stamp() + ` Perline`,
+    ext:'md',
 		data: el.perline.value,
 	})
 }
 gebi("save_normal_wrapped").onclick = () => {
-  download_text_file({
+  download_file({
     name: get_date_stamp() + ` Normal`,
+    ext:'md',
 		data: el.normal_wrapped.value,
 	})
 }
@@ -396,19 +398,18 @@ The abbreviation belongs with the content that follows it e.g., the abbreviation
 The abbreviation belongs with the content that follows it i.e., the abbreviation stays with text that follows it.
 
 `
-//let abbreviations_2 = `Mr. Mrs. Ms. Dr. Prof. Inc. Ltd. Jr. Sr. St. Ave. Blvd. Rd. Co. Etc. No. P.S. A.M. P.M.`
-function start_with_normal(){
-el.normal_wrapped.value=
-  //abbreviations_2
-  normal_wrapped_templates[alice_name]//.Abbreviations
-el.normal_wrapped.onchange()
-}
-function start_with_wrapped(){
-  el.perline.value=
-  perline_templates["Intro to Perline"]
-  el.perline.onchange()
-}
-
+  //let abbreviations_2 = `Mr. Mrs. Ms. Dr. Prof. Inc. Ltd. Jr. Sr. St. Ave. Blvd. Rd. Co. Etc. No. P.S. A.M. P.M.`
+  function start_with_normal(){
+    el.normal_wrapped.value=
+    //abbreviations_2
+    normal_wrapped_templates[alice_name]//.Abbreviations
+    el.normal_wrapped.onchange()
+  }
+  function start_with_wrapped(){
+    el.perline.value=
+    perline_templates["Intro to Perline"]
+    el.perline.onchange()
+  }
   populate_templates_list()
   start_with_wrapped()
   //start_with_normal()
