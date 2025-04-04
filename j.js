@@ -1,4 +1,4 @@
-// By + Copyright 2022-2025 Greg Abbott. Version YMD 2025-03-11
+// By + Copyright 2022-2025 Greg Abbott. Version YMD 2025_0404
 function download_file({ name, ext, data }) {
 	let blob = new Blob([data], { type: "application/octet-stream" })
 	let link = document.createElement("a")
@@ -199,25 +199,27 @@ function position_perline_ruler(){
     Number(el.max_line_width.value)
   el.perline_ruler.style.left=left+'ch'
 }
-el.custom_value_for_one_indent.onkeyup=spread
-el.normal_wrapped.onchange=spread
-el.normal_wrapped.onkeyup=spread
+el.custom_value_for_one_indent.onkeyup=normal_to_perline
+el.normal_wrapped.onchange=normal_to_perline
+el.normal_wrapped.onkeyup=normal_to_perline
 el.max_line_width.onkeyup=
 el.max_line_width.onchange=()=>{
+  /*
   let v = parseInt(el.max_line_width.value)
-  if(v===0){//soft wrap
+  //soft wrap confuses whether a line is hard wrapped or not
+  if(v===0){
     el.perline.style.overflowX= "hidden"
     el.perline.style.whiteSpace= "normal"
   }
   else{
-    el.perline.style.whiteSpace= "pre"
     el.perline.style.overflowX= "auto"
-  }
+    el.perline.style.whiteSpace= "pre"
+  }*/
   position_perline_ruler()
-  spread()
+  normal_to_perline()
 }
-el.indent_wrapped_lines.onchange=spread
-function spread(){
+el.indent_wrapped_lines.onchange=normal_to_perline
+function normal_to_perline(){
 	el.perline.value=
   perline.from_normal({
       one_indent:el.custom_value_for_one_indent.value,
@@ -342,7 +344,7 @@ Mr. Mrs. Ms. Dr. Prof. Inc. Ltd. Jr. Sr. St. Ave. Blvd. Rd. Co. Etc. No. P.S. A.
 ## Acronyms
 e.g. N.A.S.A, R.A.D.A.R`
 let normal_wrapped_templates={}
-let alice_name='Alice in Wonderland (Sample)'
+let alice_name='Alice in Wonderland (Sample)'//Very long sentences
 normal_wrapped_templates[alice_name]=`# Alice in Wonderland
 
 ## Chapter 1
@@ -352,6 +354,7 @@ So she was considering in her own mind (as well as she could, for the hot day ma
 
 There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, 'Oh dear! Oh dear! I shall be late!' (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually took a watch out of its waistcoat-pocket, and looked at it, and then hurried on, Alice started to her feet, for it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it, and fortunately was just in time to see it pop down a large rabbit-hole under the hedge.`
 
+normal_wrapped_templates.demo_2=`The tool first reformats text to a one sentence per line style. It then checks if the user has set any maximum line width. If so, it finds any sentences over this maximum width, and aims to split these across further lines. To find logical places to split, the tool uses ordered rules based on punctuation and grammar. If a line exceeds any maximum width and the tool finds no more logical places to split it further, the tool preserves it and moves to the next line. Perline lines should hold a complete part of a sentence.`
 
 function populate_templates_list() {
 	let the_popover_el = gebi("template_picker")
@@ -402,7 +405,7 @@ The abbreviation belongs with the content that follows it i.e., the abbreviation
   function start_with_normal(){
     el.normal_wrapped.value=
     //abbreviations_2
-    normal_wrapped_templates[alice_name]//.Abbreviations
+    normal_wrapped_templates['demo_2']//.Abbreviations
     el.normal_wrapped.onchange()
   }
   function start_with_wrapped(){

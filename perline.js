@@ -1,6 +1,6 @@
-//Copyright © 2022-2024 Greg Abbott. Version YMD 2024-11-24
+//By and Copyright 2022-2024 Greg Abbott. Version YMD 2025_0404
 const perline=(()=>{
-  function log(x){console.log(x);return x}
+  function log(...x){console.log(...x);return x}
   const unit_separator='\u001f'//String.fromCharCode(31)
   const temporary_comma=`\u001E`//record_separator
   const temporary_dot=unit_separator
@@ -39,7 +39,7 @@ const perline=(()=>{
       var is_a_header=/^#+ .*/.test(x)
       if(is_a_header){
         //preserve newline before and after header
-        return `\n`+x+`\n`
+        return `\n${x}\n`
       }
       return x.trim()+' '//1 space between joined items
     }
@@ -66,10 +66,16 @@ const perline=(()=>{
       indent_wrapped_lines = true,
       one_indent
   }){
-    max_line_length= parseInt(max_line_length)
+   
+    //validate max_line_length
+    let is_valid_max_line_length=/^\d+$/.test(max_line_length)
+    max_line_length = is_valid_max_line_length?parseInt(max_line_length):0
+    //min == zero
+    max_line_length = max_line_length<1?0:max_line_length
+    
     if(one_indent){
       glob.one_indent=one_indent
-    }
+    }//XXX
     function split_sentence_to_smallest_parts (s){
     return s
     .trim()
@@ -171,7 +177,7 @@ const perline=(()=>{
             //&& length of 1 space between parts
             //&& length of the part
             //all fits within any limit
-            a[a.length-1].length+1+part.length<=max_line_length
+            a[a.length-1].length+1+part.length<=max_line_length//XXXX
         if(adding_this_part_wont_exceed_line_length){
           let is_first_part_on_line=
             a[a.length-1].trim().length==0
@@ -257,7 +263,7 @@ const perline=(()=>{
       regex:touching_lines_regex,
       fn:([,block])=>{
         glob.current_block_in_inputs_indent_value=false//Reset
-        return process_lines_in_block(block)
+        return chain(process_lines_in_block(block),log)//XXX
       }
       }),
       (x)=>x.join('\n\n'),
@@ -286,8 +292,10 @@ const perline=(()=>{
           })
           .trim()
         }
-      }).join('\n').replace(/\n{2,}/g,'\n')
-    .trimEnd()
+      })
+      .join('\n')
+      .replace(/\n{2,}/g,'\n')
+      .trimEnd()
     }
     function process_a_line({leading_space='',line}){
       //handle list item (converts indents to bullet per indent)
@@ -316,25 +324,39 @@ const perline=(()=>{
         }
         line= bullets+' '+item_text//`\t\t- LI`-> `*** LI`
       }
+      /* Whole line may fit BUT may have many sentences
+        must split 1 line per sentence.
+        NOT: 'as many whole sentences will fit on a line'
       //handle normal item Whole thing fits
       if(line.length <= max_line_length){
         return line
       }
+        */
       //belongs on its own line
       //if(is_a_link(line))return line
-      if(is_a_header(line))return line
-       if(max_line_length===0){
-        return split_string_to_sentences({//1 per line
+      if(is_a_header(line)){
+        return line
+      }
+      if(max_line_length===0){
+        //1 full sentence per line no matter its length.
+        let rv = chain(
+          line,
+          split_string_to_sentences({//1 per line
           //but not to parts
           and_parts:false
-        })(line).join('\n')
+          })
+        )
+        .join('\n')
+        
+        return rv
       }
-      return chain(
+      let rv = chain(
         line,
         split_string_to_sentences({and_parts:true}),
         map(process_sentence_parts)
         //log
       ).join('\n')
+      return rv
     }
     function process_sentence_parts(sentence){
         //Whole sentence fits within max width DONE
@@ -446,6 +468,7 @@ const perline=(()=>{
         ?split_to_sentences_and_parts(text)
         :split_to_sentences_basic(text)
     function split_to_sentences_basic(text){
+      console.log('234')//XXX
         let sentences = []
         let currentSentence = ""
         let stack = []
