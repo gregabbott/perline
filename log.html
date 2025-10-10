@@ -3,6 +3,7 @@
 <head>
 <meta charset=utf-8>
 <link rel=icon href=data:;base64,iVBORw0KGgo=>
+<meta name="copyright" content="Perline Project. By and Copyright 2022-2025 Greg Abbott">
 <title>Perline &mdash; Changelog</title>
 <style>
   :root{
@@ -48,7 +49,26 @@ footer{
     <a href="index.html">Perline</a> CHANGELOG
   </header>
   <!-- date blocks sorted newest at top -->
-<pre>2025_0910
+<pre>
+2025_1010
+Splits Perline functions to two scripts to simplify development.
+  `perline_to_normal.js` and `normal_to_perline.js`
+Tweaks the main function signature to allow setup then use:
+  Setup: `const converter = normal_to_perline(config)`
+  Use: documents.map(converter)`
+Swaps `normal_to_perline` logic:
+  Incorporates newly written custom splitter function:
+    Split modes: before, at, after, around.
+    Split delimiter: regular expression or string.
+    (Replaces process: add markers to string, split at markers.)
+  Writes string splitter fns and groups into related sets:
+    Split by: punctuation, ({[parentheses]}), "'`quotes`'", etc.
+    If(string > max line length){split by fns in set 1}. 
+    If(result_string > max line length){split by fns in set 2}
+    Repeat til all lines fit max-length, or all split Fns used.
+Tweaks intro text.
+
+2025_0910
 Adds undo redo stack to text editors.
 
 2025_0404
